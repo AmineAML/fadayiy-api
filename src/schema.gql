@@ -1,0 +1,127 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Agency {
+  id: Int!
+  url: String!
+  name: String!
+  featured: Boolean
+  type: String
+  country: String
+  abbrev: String
+  description: String
+  administrator: String
+  founding_year: String
+  launchers: String
+  spacecraft: String
+  parent: String
+  total_launch_count: Int
+  successful_launches: Int
+  consecutive_successful_launches: Int
+  failed_launches: Int
+  pending_launches: Int
+  successful_landings: Int
+  failed_landings: Int
+  attempted_landings: Int
+  consecutive_successful_landings: Int
+  info_url: String
+  wiki_url: String
+  logo_url: String
+  image_url: String
+  nation_url: String
+  country_code: String
+}
+
+type Status {
+  id: Int!
+  name: String!
+  abbrev: String!
+  description: String!
+}
+
+type Type {
+  id: Int!
+  name: String!
+}
+
+type Station {
+  id: Int!
+  url: String!
+  name: String!
+  status: Status
+  type: Type!
+  founded: String!
+  deorbited: String!
+  height: Int!
+  width: Int!
+  mass: Int!
+  volume: Int!
+  description: String!
+  orbit: String!
+  onboard_crew: String!
+  owners: [Agency!]!
+  image_url: String!
+}
+
+type Newsletter {
+  id: Int!
+  name: String!
+  type: String
+}
+
+type Astronaut {
+  """Example field (placeholder)"""
+  id: Int!
+  url: String!
+  name: String
+  status: Status
+  type: Type!
+  agency: Agency
+  nationality: String!
+  twitter: String
+  instagram: String
+  bio: String
+  profile_image: String
+  wiki: String
+  first_flight: String
+  last_flight: String
+  profile_image_thumbnail: String
+}
+
+type Launch {
+  id: Int!
+  slug: String!
+  name: String!
+  status: Status
+  last_updated: String!
+  net: String
+  window_end: String
+  window_start: String
+  infoURLs: String
+  vidURLs: String
+  webcast_live: String
+  image: String
+  infographic: String
+}
+
+type Query {
+  stations: [Station!]!
+  station(id: Int!): Station!
+  newslettersSubscribers: [Newsletter!]!
+  newslettersSubscriber(id: Int!): Newsletter!
+  astronauts: [Astronaut!]!
+  astronaut(id: Int!): Astronaut!
+  agencies: [Agency!]!
+  agency(id: Int!): Agency!
+  launches: [Launch!]!
+}
+
+type Mutation {
+  createSubscriber(createSubscriberInput: CreateSubscriberInput!): Newsletter!
+}
+
+input CreateSubscriberInput {
+  name: String!
+  type: String
+}
