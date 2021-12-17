@@ -41,7 +41,7 @@ export class AgencyService {
 
     let agency: Agency = agencyRes.data
 
-    agency = await this.translationService.translatedData(agency)
+    // agency = await this.translationService.translatedData(agency)
 
     return agency
   }

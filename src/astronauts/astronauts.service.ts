@@ -62,7 +62,7 @@ export class AstronautsService {
 
     let astronaut: Astronaut = astronautRes.data
 
-    astronaut = await this.translationService.translatedData(astronaut)
+    // astronaut = await this.translationService.translatedData(astronaut)
 
     return astronaut
   }

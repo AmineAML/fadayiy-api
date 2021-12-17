@@ -27,7 +27,7 @@ export class StationsService {
 
         let spaceStation: Station = spaceStationRes.data
 
-        spaceStation = await this.translationService.translatedData(spaceStation)
+        // spaceStation = await this.translationService.translatedData(spaceStation)
 
         return spaceStation
     }
