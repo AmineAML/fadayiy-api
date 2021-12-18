@@ -10,6 +10,8 @@ import { NewslettersModule } from './newsletters/newsletters.module';
 import { AstronautsModule } from './astronauts/astronauts.module';
 import { AgencyModule } from './agency/agency.module';
 import { LaunchModule } from './launch/launch.module';
+import { ApodModule } from './apod/apod.module';
+import { EpicModule } from './epic/epic.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { LaunchModule } from './launch/launch.module';
     AstronautsModule,
     AgencyModule,
     LaunchModule,
+    ApodModule,
+    EpicModule,
   ],
   controllers: [AppController],
   providers: [AppService],

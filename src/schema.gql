@@ -105,6 +105,28 @@ type Launch {
   infographic: String
 }
 
+type Apod {
+  """Example field (placeholder)"""
+  id: Int!
+  date: String!
+  explanation: String!
+  hdurl: String!
+  media_type: String!
+  service_version: String!
+  title: String!
+  url: String!
+  copyright: String
+}
+
+type Epic {
+  """Example field (placeholder)"""
+  identifier: Int!
+  caption: String!
+  image: String!
+  date: String!
+  url: String
+}
+
 type Query {
   stations: [Station!]!
   station(id: Int!): Station!
@@ -115,6 +137,8 @@ type Query {
   agencies: [Agency!]!
   agency(id: Int!): Agency!
   launches: [Launch!]!
+  astronomyPictureOfTheDay: Apod!
+  EarthPolychromaticImagingCamera: Epic!
 }
 
 type Mutation {
