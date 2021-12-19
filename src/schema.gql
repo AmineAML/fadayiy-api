@@ -100,7 +100,7 @@ type Launch {
   window_start: String
   infoURLs: String
   vidURLs: String
-  webcast_live: String
+  webcast_live: Boolean
   image: String
   infographic: String
 }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { AstronautsService } from './astronauts.service';
 import { AstronautsResolver } from './astronauts.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,7 +16,8 @@ import { TranslationService } from 'src/common/translation/translation.service';
   imports: [
     TypeOrmModule.forFeature([Astronaut]),
     HttpLaunchLibrary,
-    HttpLibreTranslate
+    HttpLibreTranslate,
+    CacheModule.register({})
   ]
 })
 export class AstronautsModule {}

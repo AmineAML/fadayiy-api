@@ -47,7 +47,7 @@ export class Launch {
 
   @Column()
   @Field({ nullable: true })
-  webcast_live: string;
+  webcast_live: boolean;
 
   @Column()
   @Field({ nullable: true })
