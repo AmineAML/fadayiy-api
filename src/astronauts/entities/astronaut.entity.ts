@@ -65,4 +65,12 @@ export class Astronaut {
   @Column()
   @Field({ nullable: true })
   profile_image_thumbnail: string;
+
+  @Column()
+  @Field({ nullable: true })
+  date_of_birth: string;
+
+  @Column()
+  @Field({ nullable: true })
+  date_of_death: string;
 }

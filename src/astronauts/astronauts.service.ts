@@ -21,6 +21,8 @@ export class AstronautsService {
 
     // console.log(astronauts)
 
+    // if (astronauts && astronauts.length > 0) return astronauts
+
     // if (astronauts == null || astronauts.length == 0 || astronauts == undefined) {
       let isNextNull: boolean = false
 

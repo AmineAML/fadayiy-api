@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { AgencyService } from './agency.service';
 import { AgencyResolver } from './agency.resolver';
 import { Agency } from './entities/agency.entity';
@@ -16,7 +16,8 @@ import { TranslationService } from 'src/common/translation/translation.service';
   imports: [
     TypeOrmModule.forFeature([Agency]),
     HttpLaunchLibrary,
-    HttpLibreTranslate
+    HttpLibreTranslate,
+    CacheModule.register({})
   ]
 })
 export class AgencyModule {}

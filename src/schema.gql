@@ -87,6 +87,8 @@ type Astronaut {
   first_flight: String
   last_flight: String
   profile_image_thumbnail: String
+  date_of_birth: String
+  date_of_death: String
 }
 
 type Launch {
@@ -127,6 +129,11 @@ type Epic {
   url: String
 }
 
+type BingImageSearch {
+  """Example field (placeholder)"""
+  url: String!
+}
+
 type Query {
   stations: [Station!]!
   station(id: Int!): Station!
@@ -139,6 +146,7 @@ type Query {
   launches: [Launch!]!
   astronomyPictureOfTheDay: Apod!
   EarthPolychromaticImagingCamera: Epic!
+  bingImageSearch(query: String!): BingImageSearch!
 }
 
 type Mutation {

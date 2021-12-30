@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Cache } from 'cache-manager';
 import { lastValueFrom } from 'rxjs';
 import { TranslationService } from 'src/common/translation/translation.service';
 import { Repository } from 'typeorm';
@@ -10,26 +11,40 @@ import { Agency } from './entities/agency.entity';
 
 @Injectable()
 export class AgencyService {
-  constructor(@InjectRepository(Agency) private agenciesRepository: Repository<Agency>, @Inject('HttpServiceLaunchLibrary') private readonly launchLibraryApi: HttpService, private readonly translationService: TranslationService) {}
+  constructor(@InjectRepository(Agency) private agenciesRepository: Repository<Agency>, @Inject('HttpServiceLaunchLibrary') private readonly launchLibraryApi: HttpService, private readonly translationService: TranslationService, @Inject(CACHE_MANAGER) private cacheManager: Cache) { }
 
   async findAll(): Promise<Agency[]> {
-    let agencies: Agency[] =[]
+    let agencies: Agency[] = []
+
+    // agencies = await this.cacheManager.get('agencies') || []
+
+    // console.log(agencies)
+
+    // if (agencies && agencies.length > 0) return agencies
 
     let isNextNull: boolean = false
 
     let offset = 0
 
-    while(!isNextNull) {
+    while (!isNextNull) {
       const res = this.launchLibraryApi.get(`/agencies/?limit=100&&offset=${offset}`)
 
       const agenciesRes = await lastValueFrom(res)
 
-      agenciesRes.data.next == null ? isNextNull = true :  isNextNull = false
-  
+      agenciesRes.data.next == null ? isNextNull = true : isNextNull = false
+
       agencies.push(...agenciesRes.data.results)
 
       offset += 100
     }
+
+    for (let i = 0; i < agencies.length; i++) {
+      agencies[i] = await this.findOne(agencies[i].id)
+
+      console.log(agencies[i])
+    }
+
+    // await this.cacheManager.set('agencies', agencies, { ttl: 0 });
 
     return agencies
   }

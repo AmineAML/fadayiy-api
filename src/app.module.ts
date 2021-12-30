@@ -12,6 +12,7 @@ import { AgencyModule } from './agency/agency.module';
 import { LaunchModule } from './launch/launch.module';
 import { ApodModule } from './apod/apod.module';
 import { EpicModule } from './epic/epic.module';
+import { BingImageSearchModule } from './bing-image-search/bing-image-search.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { EpicModule } from './epic/epic.module';
     LaunchModule,
     ApodModule,
     EpicModule,
+    BingImageSearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
