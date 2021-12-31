@@ -3,6 +3,8 @@ import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cache } from 'cache-manager';
 import { lastValueFrom } from 'rxjs';
+import { BingImageSearchService } from 'src/bing-image-search/bing-image-search.service';
+import { CacheService } from 'src/common/cache/cache.service';
 import { TranslationService } from 'src/common/translation/translation.service';
 import { Repository } from 'typeorm';
 import { CreateAgencyInput } from './dto/create-agency.input';
@@ -11,9 +13,18 @@ import { Agency } from './entities/agency.entity';
 
 @Injectable()
 export class AgencyService {
-  constructor(@InjectRepository(Agency) private agenciesRepository: Repository<Agency>, @Inject('HttpServiceLaunchLibrary') private readonly launchLibraryApi: HttpService, private readonly translationService: TranslationService, @Inject(CACHE_MANAGER) private cacheManager: Cache) { }
+  constructor(@InjectRepository(Agency) private agenciesRepository: Repository<Agency>, @Inject('HttpServiceLaunchLibrary') private readonly launchLibraryApi: HttpService, private readonly translationService: TranslationService, @Inject(CACHE_MANAGER) private cacheManager: Cache, private readonly cacheService: CacheService, private readonly bingImageSearchService: BingImageSearchService, @Inject('HttpServiceFetch') private readonly http: HttpService) { }
 
   async findAll(): Promise<Agency[]> {
+    const cachedData = await this.cacheService.getCache('agencies')
+
+    if (cachedData) {
+      console.log('Agencies from cache')
+      return cachedData
+    }
+
+    console.log('agencies from http')
+    
     let agencies: Agency[] = []
 
     // agencies = await this.cacheManager.get('agencies') || []
@@ -41,8 +52,28 @@ export class AgencyService {
     for (let i = 0; i < agencies.length; i++) {
       agencies[i] = await this.findOne(agencies[i].id)
 
+      if (!agencies[i].logo_url) {
+        if (agencies[i].name.toLowerCase() == 'general electric') {
+          agencies[i].logo_url = "https://logo.clearbit.com/ge.com"
+        } else if (agencies[i].info_url) {
+          let url = "https://logo.clearbit.com/" + agencies[i].info_url.replace(new RegExp("https://", "g"), "").replace(new RegExp("http://", "g"), "").replace(new RegExp("www.", "g"), "").split("/")[0]
+  
+          if (await this.checkImage(url)) {
+            agencies[i].logo_url = url
+          }
+        } else if (agencies[i].image_url) {
+          agencies[i].logo_url = agencies[i].image_url
+        } else {
+          let urlRes = await this.bingImageSearchService.findOne(`${agencies[i].name.toLowerCase()} logo`);
+
+          agencies[i].logo_url = urlRes.url
+        }
+      }
+
       console.log(agencies[i])
     }
+
+    await this.cacheService.setCache('agencies', agencies)
 
     // await this.cacheManager.set('agencies', agencies, { ttl: 0 });
 
@@ -56,8 +87,25 @@ export class AgencyService {
 
     let agency: Agency = agencyRes.data
 
-    // agency = await this.translationService.translatedData(agency)
-
     return agency
+  }
+
+  async checkImage(url) {
+    try {
+      const res = this.http.get(url, {
+        // mode: "no-cors",
+        responseType: 'blob'
+      });
+  
+      const urlRes = await lastValueFrom(res)
+  
+      console.log(urlRes)
+  
+      const buff = await urlRes.headers['content-type']//.data.blob();
+  
+      return buff/*.type*/.startsWith("image/");
+    } catch (err) {}
+    console.log(`Error fetching ${url}`)
+    return false
   }
 }

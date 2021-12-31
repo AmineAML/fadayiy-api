@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -44,6 +44,11 @@ import { BingImageSearchModule } from './bing-image-search/bing-image-search.mod
     ApodModule,
     EpicModule,
     BingImageSearchModule,
+    CacheModule.register({
+      isGlobal: true,
+      // cache for a week to save on build time
+      ttl: 604800
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
