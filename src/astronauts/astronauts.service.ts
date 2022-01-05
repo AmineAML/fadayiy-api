@@ -9,12 +9,22 @@ import { Astronaut } from './entities/astronaut.entity';
 import * as googleTranslateApi from '@vitalets/google-translate-api';
 import { TranslationService } from 'src/common/translation/translation.service';
 import { Cache } from 'cache-manager';
+import { CacheService } from 'src/common/cache/cache.service';
 
 @Injectable()
 export class AstronautsService {
-  constructor(@InjectRepository(Astronaut) private astronautsRepository: Repository<Astronaut>, @Inject('HttpServiceLaunchLibrary') private readonly launchLibraryApi: HttpService, private readonly translationService: TranslationService, @Inject(CACHE_MANAGER) private cacheManager: Cache) { }
+  constructor(@InjectRepository(Astronaut) private astronautsRepository: Repository<Astronaut>, @Inject('HttpServiceLaunchLibrary') private readonly launchLibraryApi: HttpService, private readonly translationService: TranslationService, private readonly cacheService: CacheService) { }
 
   async findAll(): Promise<Astronaut[]> {
+    const cachedData = await this.cacheService.getCache('astronauts')
+
+    if (cachedData) {
+      console.log('astronauts from cache')
+      return cachedData
+    }
+
+    console.log('astronauts from http')
+
     let astronauts: Astronaut[] = []
 
     // astronauts = await this.cacheManager.get('astronauts') || []
@@ -64,6 +74,7 @@ export class AstronautsService {
       // await this.cacheManager.set('astronauts', astronauts, { ttl: 0 });
     // }
 
+    await this.cacheService.setCache('astronauts', astronauts)
 
     return astronauts
   }

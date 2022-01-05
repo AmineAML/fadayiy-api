@@ -52,14 +52,14 @@ type Station {
   status: Status
   type: Type!
   founded: String!
-  deorbited: String!
+  deorbited: String
   height: Int!
   width: Int!
   mass: Int!
   volume: Int!
   description: String!
   orbit: String!
-  onboard_crew: String!
+  onboard_crew: String
   owners: [Agency!]!
   image_url: String!
 }

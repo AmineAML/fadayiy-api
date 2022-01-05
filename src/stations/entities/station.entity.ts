@@ -62,7 +62,7 @@ export class Station {
     founded: string;
 
     @Column()
-    @Field()
+    @Field({ nullable: true })
     deorbited: string;
 
     @Column()
@@ -90,7 +90,7 @@ export class Station {
     orbit: string;
 
     @Column()
-    @Field()
+    @Field({ nullable: true })
     onboard_crew: string;
 
     @Field(type => [Agency])

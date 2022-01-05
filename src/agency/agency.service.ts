@@ -19,7 +19,7 @@ export class AgencyService {
     const cachedData = await this.cacheService.getCache('agencies')
 
     if (cachedData) {
-      console.log('Agencies from cache')
+      console.log('agencies from cache')
       return cachedData
     }
 
@@ -52,24 +52,6 @@ export class AgencyService {
     for (let i = 0; i < agencies.length; i++) {
       agencies[i] = await this.findOne(agencies[i].id)
 
-      if (!agencies[i].logo_url) {
-        if (agencies[i].name.toLowerCase() == 'general electric') {
-          agencies[i].logo_url = "https://logo.clearbit.com/ge.com"
-        } else if (agencies[i].info_url) {
-          let url = "https://logo.clearbit.com/" + agencies[i].info_url.replace(new RegExp("https://", "g"), "").replace(new RegExp("http://", "g"), "").replace(new RegExp("www.", "g"), "").split("/")[0]
-  
-          if (await this.checkImage(url)) {
-            agencies[i].logo_url = url
-          }
-        } else if (agencies[i].image_url) {
-          agencies[i].logo_url = agencies[i].image_url
-        } else {
-          let urlRes = await this.bingImageSearchService.findOne(`${agencies[i].name.toLowerCase()} logo`);
-
-          agencies[i].logo_url = urlRes.url
-        }
-      }
-
       console.log(agencies[i])
     }
 
@@ -86,6 +68,24 @@ export class AgencyService {
     const agencyRes = await lastValueFrom(res)
 
     let agency: Agency = agencyRes.data
+
+    if (!agency.logo_url) {
+      if (agency.name.toLowerCase() == 'general electric') {
+        agency.logo_url = "https://logo.clearbit.com/ge.com"
+      } else if (agency.info_url) {
+        let url = "https://logo.clearbit.com/" + agency.info_url.replace(new RegExp("https://", "g"), "").replace(new RegExp("http://", "g"), "").replace(new RegExp("www.", "g"), "").split("/")[0]
+
+        if (await this.checkImage(url)) {
+          agency.logo_url = url
+        }
+      } else if (agency.image_url) {
+        agency.logo_url = agency.image_url
+      } else {
+        let urlRes = await this.bingImageSearchService.findOne(`${agency.name.toLowerCase()} logo`);
+
+        agency.logo_url = urlRes.url
+      }
+    }
 
     return agency
   }

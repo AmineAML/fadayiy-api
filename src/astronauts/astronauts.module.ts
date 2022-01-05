@@ -6,12 +6,14 @@ import { HttpLaunchLibrary } from 'src/common/http/http-launch-library.module';
 import { Astronaut } from './entities/astronaut.entity';
 import { HttpLibreTranslate } from 'src/common/http/http-libre-translate.module';
 import { TranslationService } from 'src/common/translation/translation.service';
+import { CacheService } from 'src/common/cache/cache.service';
 
 @Module({
   providers: [
     AstronautsResolver,
     AstronautsService,
-    TranslationService
+    TranslationService,
+    CacheService
   ],
   imports: [
     TypeOrmModule.forFeature([Astronaut]),
