@@ -1,6 +1,6 @@
 <h1 align="center">Fadayiy API</h1>
 
-<h4 align="center">An API for Fadayiy App, a platform for exploring space.</h4>
+<h4 align="center">An API for <a href="https://github.com/AmineAML/fadayiy-app" target="_blank">Fadayiy App</a>, a platform for exploring space.</h4>
 
 <p align="center">
   <a href="#etymology">Etymology</a> •
