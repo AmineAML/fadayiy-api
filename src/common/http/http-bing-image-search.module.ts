@@ -10,7 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         baseURL: configService.get('BING_IMAGE_SEARCH_API_URL'),
         headers: {
           'x-rapidapi-host': 'bing-image-search1.p.rapidapi.com',
-          'x-rapidapi-key': configService.get('BING_IMAGE_SEARCH_API_key')
+          'x-rapidapi-key': configService.get('BING_IMAGE_SEARCH_API_KEY')
         }
       }),
       inject: [ConfigService]

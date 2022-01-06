@@ -80,11 +80,14 @@ export class AgencyService {
         }
       } else if (agency.image_url) {
         agency.logo_url = agency.image_url
-      } else {
+      } 
+      
+      /*else {
         let urlRes = await this.bingImageSearchService.findOne(`${agency.name.toLowerCase()} logo`);
 
         agency.logo_url = urlRes.url
       }
+      */
     }
 
     return agency

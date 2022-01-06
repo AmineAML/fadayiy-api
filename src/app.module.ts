@@ -24,7 +24,7 @@ import { BingImageSearchModule } from './bing-image-search/bing-image-search.mod
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
       type: 'postgres',
-      host: 'localhost',
+      host: configService.get<string>('NODE_ENV') == 'development' ? 'localhost' : 'fadayiy_postgres',
       port: configService.get<number>('POSTGRES_HOST_PORT'),
       username: configService.get<string>('POSTGRES_USER'),
       password: configService.get<string>('POSTGRES_PASSWORD'),

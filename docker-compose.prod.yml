@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  fadayiy_postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_HOST_PORT}:5432"
+    volumes:
+      - fadayiy_pgdata:/var/lib/postgresql/data/
+    networks:
+      - fadayiy_project
+    container_name: fadayiy_postgres
+
+  fadayiy_api:
+    image: fadayiy_api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - "fadayiy_postgres"
+    ports:
+      - "${PROD_PORT}:3000"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST_PORT: ${POSTGRES_HOST_PORT}
+      NODE_ENV: production
+      LAUNCH_LIBRARY_V2_API_PROD: ${LAUNCH_LIBRARY_V2_API_PROD}
+      NASA_DEVELOPER_KEY: ${NASA_DEVELOPER_KEY}
+      NASA_APOD: ${NASA_APOD}
+      NASA_EPIC: ${NASA_EPIC}
+      BING_IMAGE_SEARCH_API_URL: ${BING_IMAGE_SEARCH_API_URL}
+      BING_IMAGE_SEARCH_API_KEY: ${BING_IMAGE_SEARCH_API_KEY}
+      PROD_PORT: ${PROD_PORT}
+    networks:
+      - fadayiy_project
+
+volumes: 
+  fadayiy_pgdata:
+
+networks:
+  fadayiy_project:
+    external: true
