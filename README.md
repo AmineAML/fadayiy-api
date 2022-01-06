@@ -1,73 +1,111 @@
+<h1 align="center">Fadayiy API</h1>
+
+<h4 align="center">An API for Fadayiy App, a platform for exploring space.</h4>
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+  <a href="#etymology">Etymology</a> •
+  <a href="#key-features">Key Features</a> •
+  <a href="#api">API</a> •
+  <a href="#architecture-diagram">Architecture Diagram</a> •
+  <a href="#how-to-use">How to use</a> •
+  <a href="#built-with">Built with</a> •
+  <a href="#license">License</a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Ethymology
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Fadayiy meaning 'a space thing' in arabic, comes originally from my willingness to build this application with content in that language but wasn't satisfied with the translation options or they didn't offer a translation that was enough without having to proof read it for mistakes, which means going through hundreds of pages, a more than a one man's job.
 
-## Description
+## Key Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The principal key features to keep note of are:
 
-## Installation
+- Explore space stations
+- Explore astronauts
+- Explore space agencies
+- Recent earth picture from space
+- Astronomy picture of the day
+- Upcomming launches
+- Newsletter
 
+<!-- ## Architecture Diagram
+
+![Fadayiy Architecture](./docs/diagrams/architecture.svg)  
+C4 Model Diagram -->
+
+## How to use
+
+### Requirements
+
+This project is built using [NestJS](https://docs.nestjs.com/#installation), with [Node.js](https://nodejs.org/en/) v14+ and [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) v8+, you can use Yarn or any other package manager after doing the required changes.
+
+### Developing
+Rename `.env.example` into `.env` and add your environment variables.
 ```bash
-$ npm install
+npm install
+
+npm run start:dev
+```
+Which will start the server on http://localhost:3000 with the GraphQL client at http://localhost:3000/graphql
+
+### Deploying
+```bash
+npm run docker:prod:up
 ```
 
-## Running the app
+## Sample queries
+Once you have the GraphQL client running on your machine, you can verify things are working by executing these queries:
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+### Get the astronomy picture of the day
+```
+{
+  astronomyPictureOfTheDay {
+    explanation,
+    hdurl,
+    media_type,
+    title,
+    copyright
+  }
+}
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### Get space stations
+```
+{
+  stations {
+    name,
+    status {
+      name
+    },
+    type {
+      name
+    },
+    image_url,
+    description,
+    founded,
+    deorbited,
+    orbit,
+    owners {
+      name,
+      abbrev
+    },
+    id
+  }
+}
 ```
 
-## Support
+## Built with
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- [NestJS](https://nestjs.com/)
+- [GraphQL](https://graphql.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Bing Image Search](https://rapidapi.com/microsoft-azure-org-microsoft-cognitive-services/api/bing-image-search1)
+- [Launch Library 2](https://thespacedevs.com/llapi)
+- [APOD](https://api.nasa.gov/#browseAPI)
+- [EPIC](https://api.nasa.gov/#browseAPI)
+- [Logo API](https://clearbit.com/logo)
+- [Docker](https://www.docker.com/)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is under the [MIT](https://github.com/AmineAML/fadayiy-api/blob/main/LICENSE) license.
