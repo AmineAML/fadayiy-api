@@ -10,6 +10,8 @@ COPY . .
 
 RUN npm install --global rimraf
 
+RUN npm install ansi-styles
+
 RUN npm run build
 
 FROM node:14-alpine As production
