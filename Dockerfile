@@ -12,6 +12,8 @@ RUN npm run build
 
 FROM node:14-alpine As production
 
+RUN npm install --global rimraf
+
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
