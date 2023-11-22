@@ -5,7 +5,11 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @ObjectType()
 export class Apod {
   @PrimaryGeneratedColumn()
-  @Field(() => Int, { description: 'Example field (placeholder)' })
+  @Field(() => Int, {
+    description: 'Example field (placeholder)',
+    // External API does also return responses without an ID
+    nullable: true,
+  })
   id: number;
 
   @Column()

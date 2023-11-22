@@ -6,8 +6,8 @@ import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typ
 @ObjectType()
 export class Launch {
   @PrimaryGeneratedColumn()
-  @Field(type => Int)
-  id: number;
+  @Field(type => String)
+  id: string;
 
   @Column()
   @Field()
